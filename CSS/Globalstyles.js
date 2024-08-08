@@ -151,6 +151,24 @@ const styles = StyleSheet.create({
     paddingVertical:width*0.20,
     backgroundColor:'#0A0A30',
     borderRadius:20
-  }
+  },
+  splashcontainer:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+    backgroundColor:'#070720'
+
+},
+splashimage:{
+width:150,
+height:30,
+
+},
+splashtext:{
+    fontSize:16,
+    fontWeight:'bold',
+    color:'white'
+
+},
 })
 export default styles
