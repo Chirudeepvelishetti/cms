@@ -1,11 +1,12 @@
-// screens/Page1.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Linking } from 'react-native';
 import Forms from './Forms';
 import Header from '../HOME/Header';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Provider as PaperProvider, TextInput as PaperInput } from 'react-native-paper';
+
 const { width, height } = Dimensions.get('window');
+
 export default function Page1({ navigation }) {
     const [districtOpen, setDistrictOpen] = useState(false);
     const [selectedDistrict, setSelectedDistrict] = useState(null);
@@ -32,13 +33,44 @@ export default function Page1({ navigation }) {
     ]);
 
     const [shopName, setShopName] = useState('');
+    const [pincode, setPincode] = useState('');
+    const [errors, setErrors] = useState({ shopName: '', district: '', mandal: '', village: '',pincode:'' });
 
-    const handleShopNameChange = text => {
-        setShopName(text);
-        setShopNameError('');
-      };
+    const validate = () => {
+        let isValid = true;
+        const newErrors = { shopName: '', district: '', mandal: '', village: '',pincode:''};
+
+        if (!shopName.trim()) {
+            newErrors.shopName = 'Shop name is required.';
+            isValid = false;
+        }
+        if (!selectedDistrict) {
+            newErrors.district = 'District is required.';
+            isValid = false;
+        }
+        if (!selectedMandal) {
+            newErrors.mandal = 'Mandal is required.';
+            isValid = false;
+        }
+        if (!selectedVillage) {
+            newErrors.village = 'Village is required.';
+            isValid = false;
+        }
+        if (!pincode.trim()) {
+            newErrors.pincode = 'pincode is required.';
+            isValid = false;
+        }
+        setErrors(newErrors);
+        return isValid;
+    };
+
+    const handleSubmit = () => {
+        if (validate()) {
+            navigation.navigate('page2');
+        }
+    };
+
     return (
-
         <View>
             <Header />
             <View style={styles.indicatorview}>
@@ -59,76 +91,96 @@ export default function Page1({ navigation }) {
                     </View>
                     <View style={styles.inputview}>
                         <PaperInput
-                            label="Village"
+                            label="Shop Name"
                             value={shopName}
-                            onChangeText={handleShopNameChange}
+                            onChangeText={text => setShopName(text)}
                             mode="outlined"
                             style={styles.input}
-                        // error={!!shopNameError}
+                            error={!!errors.shopName}
                         />
+                        {/* {errors.shopName ? <Text style={styles.errorText}>{errors.shopName}</Text> : null} */}
                     </View>
                     <View style={styles.inputview}>
-                        <DropDownPicker
-                            open={districtOpen}
-                            value={selectedDistrict}
-                            items={districts}
-                            setOpen={setDistrictOpen}
-                            setValue={setSelectedDistrict}
-                            setItems={setDistricts}
-                            placeholder="Select a District"
-                            style={styles.dropdown}
-                            dropDownContainerStyle={styles.dropdownContainer}
-                            zIndex={3000} // To ensure it appears above other elements
-                            zIndexInverse={1000} // Ensures it doesn't overlap with below elements
-                        />
-
+                    <DropDownPicker
+                    open={districtOpen}
+                    value={selectedDistrict}
+                    items={districts}
+                    setOpen={setDistrictOpen}
+                    setValue={setSelectedDistrict}
+                    setItems={setDistricts}
+                    placeholder="Select District"
+                    style={[
+                        styles.dropdown,
+                        errors.district && styles.dropdownError, // Apply error style conditionally
+                    ]}
+                    dropDownContainerStyle={[
+                        styles.dropdownContainer,
+                        errors.district && styles.dropdownContainerError, // Apply error container style conditionally
+                    ]}
+                    // zIndex={1000}
+                    // zIndexInverse={900}
+                />
+                       
                     </View>
                     <View style={styles.inputview}>
-                        <DropDownPicker
-                            open={mandalOpen}
-                            value={selectedMandal}
-                            items={mandals}
-                            setOpen={setMandalOpen}
-                            setValue={setSelectedMandal}
-                            setItems={setMandals}
-                            placeholder="Select a Mandal"
-                            style={styles.dropdown}
-                            dropDownContainerStyle={styles.dropdownContainer}
-                            zIndex={2000} // Higher zIndex than the village picker to avoid overlap
-                            zIndexInverse={900} // Ensures it doesn't overlap with below elements
-                        />
-
+                    <DropDownPicker
+                    open={mandalOpen}
+                    value={selectedMandal}
+                    items={mandals}
+                    setOpen={setMandalOpen}
+                    setValue={setSelectedMandal}
+                    setItems={setMandals}
+                    placeholder="Select a Mandal"
+                    style={[
+                        styles.dropdown,
+                        errors.mandal && styles.dropdownError, // Apply error style conditionally
+                    ]}
+                    dropDownContainerStyle={[
+                        styles.dropdownContainer,
+                        errors.mandal && styles.dropdownContainerError, // Apply error container style conditionally
+                    ]}
+                    // zIndex={2000}
+                    // zIndexInverse={900}
+                />
+                
+                        
                     </View>
                     <View style={styles.inputview}>
-                        <DropDownPicker
-                            open={villageOpen}
-                            value={selectedVillage}
-                            items={villages}
-                            setOpen={setVillageOpen}
-                            setValue={setSelectedVillage}
-                            setItems={setVillages}
-                            placeholder="Select a Village"
-                            style={styles.dropdown}
-                            dropDownContainerStyle={styles.dropdownContainer}
-                            zIndex={1000} 
-                            zIndexInverse={800} 
-                        />
+                    <DropDownPicker
+                    open={villageOpen}
+                    value={selectedVillage}
+                    items={villages}
+                    setOpen={setVillageOpen}
+                    setValue={setSelectedVillage}
+                    setItems={setVillages}
+                    placeholder="Select  Village"
+                    style={[
+                        styles.dropdown,
+                        errors.village && styles.dropdownError, // Apply error style conditionally
+                    ]}
+                    dropDownContainerStyle={[
+                        styles.dropdownContainer,
+                        errors.village && styles.dropdownContainerError, // Apply error container style conditionally
+                    ]}
+                    zIndex={2000}
+                    zIndexInverse={900}
+                />
+                       
 
-                    </View>
-
-                    <View style={styles.inputview}>
-                        <PaperInput
-                            label="Pincode"
-                            value={shopName}
-                            onChangeText={handleShopNameChange}
-                            mode="outlined"
-                            style={styles.input}
-                        // error={!!shopNameError}
-                        />
+                         </View>
+                         <View style={styles.inputview}>
+                         <PaperInput
+                         label="Pincode"
+                         value={pincode}
+                         onChangeText={text => setPincode(text)}
+                         mode="outlined"
+                         style={styles.input}
+                         error={!!errors.pincode}
+                     />
                     </View>
 
                     <View style={styles.buttonview}>
-                        <TouchableOpacity onPress={() => navigation.navigate('page2')}>
+                        <TouchableOpacity onPress={handleSubmit}>
                             <Text style={styles.buttontext}>NEXT</Text>
                         </TouchableOpacity>
                     </View>
@@ -138,7 +190,6 @@ export default function Page1({ navigation }) {
                 <Text style={styles.hometext3} onPress={() => { Linking.openURL('https://www.ridhitek.com') }}>@ Powered By <Text style={{ color: 'green' }}>Ridhitek</Text></Text>
             </View>
         </View>
-
     );
 }
 
@@ -208,5 +259,30 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         flexGrow: 1,
+        
+    },
+    errorText: {
+        color: 'red',
+        fontSize: width * 0.04,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+    },
+    dropdown: {
+        borderWidth: 1,
+        borderColor: 'gray', // Default border color
+        borderRadius: 4,
+        paddingHorizontal: width*0.10,
+        height: width*0.12,
+        marginVertical:width*0.01
+    },
+    dropdownError: {
+        borderColor: '#AA0000',
+        borderWidth:2 // Error border color
+    },
+    dropdownContainer: {
+        borderColor: 'gray',
+    },
+    dropdownContainerError: {
+        borderColor: 'lightgray', // Error border color for dropdown container
     },
 });

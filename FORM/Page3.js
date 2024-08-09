@@ -72,7 +72,7 @@ export default function Page3({ navigation }) {
         </TouchableOpacity>
     </View>
     
-    <View style={{paddingVertical:width*0.10}}>
+    <View style={{paddingVertical:width*0.15}}>
     {imageUri && (
       <Image
         source={{ uri: imageUri }}
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     
    backgroundColor:'white',
     marginHorizontal:width*0.03,
-    marginTop:width*0.05,
+    marginTop:width*0.15,
    marginBottom:width*0.05,
     elevation:20,
     borderBottomLeftRadius:10,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     paddingVertical:width*0.02, 
     paddingHorizontal:width*0.10,
     borderRadius:10,
-    marginHorizontal:width*0.25,
+    marginHorizontal:width*0.15,
     marginVertical:width*0.03
   },
   shopheadtext:{
