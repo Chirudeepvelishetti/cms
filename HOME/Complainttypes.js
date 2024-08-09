@@ -17,7 +17,7 @@ export default function Complainttypes() {
             <ComplaintButtons />
       </View>
       <View style={styles.homev2}>
-            <TouchableOpacity style={styles.hometo} onPress={()=>navigation.navigate('screen')} >
+            <TouchableOpacity style={styles.hometo} onPress={()=>navigation.navigate('pagem')} >
                 <View>
                     <Text style={styles.btext}>REGISTER YOUR COMPLAINT MANUALLY</Text>
                 </View>

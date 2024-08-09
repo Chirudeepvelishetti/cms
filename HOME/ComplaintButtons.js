@@ -27,7 +27,7 @@ export default function ComplaintButtons() {
     setScanning(false);
     setScannerActive(false);
     // Navigate to the Scanner page and pass the scanned data
-    navigation.navigate('screen', { scannedData: data });
+    navigation.navigate('page1', { scannedData: data });
   };
 
   const closeScanner = () => {

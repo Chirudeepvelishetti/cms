@@ -24,10 +24,16 @@
       },
       "permissions": [
         "CAMERA"
-      ]
+      ],
+      "package": "com.saisugesh.CMSproject"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e96f912c-b1f6-47ec-9d65-0d2143c31819"
+      }
     }
   }
 }
